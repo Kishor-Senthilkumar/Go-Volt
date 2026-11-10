@@ -1,0 +1,45 @@
+{
+  "realm": "volt",
+  "enabled": true,
+  "displayName": "Volt",
+  "registrationAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "rememberMe": true,
+  "clients": [
+    {
+      "clientId": "volt-web",
+      "name": "Volt browser app",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": ["http://localhost:5173/auth/callback", "http://localhost/auth/callback"],
+      "webOrigins": ["http://localhost:5173", "http://localhost"],
+      "defaultClientScopes": ["role_list", "profile", "email", "volt-api-audience-scope"],
+      "attributes": { "pkce.code.challenge.method": "S256", "post.logout.redirect.uris": "http://localhost:5173##http://localhost" }
+    },
+    { "clientId": "volt-api", "enabled": true, "protocol": "openid-connect", "bearerOnly": true }
+  ],
+  "clientScopes": [
+    {
+      "name": "volt-api-audience-scope",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" },
+      "protocolMappers": [
+        {
+          "name": "volt-api audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": { "included.client.audience": "volt-api", "id.token.claim": "false", "access.token.claim": "true" }
+        }
+      ]
+    }
+  ],
+  "defaultDefaultClientScopes": ["role_list", "profile", "email", "volt-api-audience-scope"]
+}
